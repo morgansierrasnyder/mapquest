@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "glamor": "^2.20.37",
     "glamorous": "^3.25.0",
+    "google-maps-infobox": "^1.1.15",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-google-maps": "^7.2.0",
     "react-scripts": "1.0.10"
   },
   "scripts": {
