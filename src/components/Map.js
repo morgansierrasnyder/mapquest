@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import studentTravel from './data/student-travel';
-import TableOfBusStops from './TableOfBusStops';
+import EdCorps from '../data/edcorps';
 import { withGoogleMap, GoogleMap, Marker, Polyline, InfoWindow } from "react-google-maps";
 
 
@@ -60,21 +59,23 @@ class MapWithStops extends Component {
   constructor() {
     super();
     this.state = {
-      markers: studentTravel.result.map(place => {
+      markers: EdCorps.map(edCorp => {
+        const { lat, lng } = edCorp.geoJSON.properties
         return {
-          position: { lat: place.lat, lng: place.lng },
+          position: { lat: parseFloat(lat), lng: parseFloat(lng) },
           showInfo: false,
           infoContent: {
-            name: place.name,
-            studentsCount: place.students_count,
-            routesCount: place.routes_count 
+            name: edCorp["EdCorps Name"],
+            studentsCount: 100,
+            routesCount: 5 
           }
         }
       }),    
-      coords: studentTravel.result.map(place => {
+      coords: EdCorps.map(edCorp => {
+        const { lat, lng } = edCorp.geoJSON.properties
         return {
-          lat: place.lat, 
-          lng: place.lng
+          lat: parseFloat(lat), 
+          lng: parseFloat(lng)
         }
       }),
       showMap: true
@@ -157,9 +158,14 @@ class MapWithStops extends Component {
     this.setState({ showMap: true })
   }
   
-  minMaxLatAndLng(studentTravel) {
-    const listOfLat = studentTravel.map(obj => obj.lat);
-    const listOfLng = studentTravel.map(obj => obj.lng);
+  minMaxLatAndLng(EdCorps) {
+    console.log(EdCorps[0].geoJSON.properties.lat)
+    console.log(EdCorps[0].geoJSON.properties.lng)
+    console.log(parseFloat(EdCorps[0].geoJSON.properties.lat))
+    console.log(parseFloat(EdCorps[0].geoJSON.properties.lng))
+
+    const listOfLat = EdCorps.map(obj => parseFloat(obj.geoJSON.properties.lat));
+    const listOfLng = EdCorps.map(obj => parseFloat(obj.geoJSON.properties.lng));
     const lat = (Math.min(...listOfLat) + Math.max(...listOfLat)) / 2;
     const lng = (Math.min(...listOfLng) + Math.max(...listOfLng)) / 2;
   
@@ -167,7 +173,7 @@ class MapWithStops extends Component {
   }
   
   render() {
-    const mapCenter = this.minMaxLatAndLng(studentTravel.result);
+    const mapCenter = this.minMaxLatAndLng(EdCorps);
 
     return (
       <div>
@@ -194,7 +200,6 @@ class MapWithStops extends Component {
             />
           </div>
         }
-        <TableOfBusStops stopsData={studentTravel.result}/>
       </div>  
     );
   }

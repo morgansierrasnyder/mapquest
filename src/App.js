@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import glamorous from 'glamorous'
 
+import './App.css'
 import logo from './assets/logo.svg'
 import { Map } from './components'
 
