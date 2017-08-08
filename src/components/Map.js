@@ -1,16 +1,16 @@
 /*global google*/
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import EdCorps from '../data/edcorps';
-import { withGoogleMap, GoogleMap, Marker, Polyline, InfoWindow } from "react-google-maps";
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+import EdCorps from './data/ed-corps'
+import { withGoogleMap, GoogleMap, Marker, Polyline, InfoWindow } from "react-google-maps"
 
 
 const InitialMap = withGoogleMap(props => {
   return (
     <GoogleMap
-      defaultZoom={12}
-      defaultCenter={props.center}
+      defaultZoom={4}
+      defaultCenter={{ lat: 42, lng: -100 }}
       defaultOptions={{
         scrollwheel: false,
         mapTypeControl: false,
@@ -18,7 +18,6 @@ const InitialMap = withGoogleMap(props => {
         scaleControl: false,
         mapTypeId: 'roadmap'
       }}
-      
     >
 
       {props.markers.map((marker, index) => (
@@ -158,23 +157,7 @@ class MapWithStops extends Component {
     this.setState({ showMap: true })
   }
   
-  minMaxLatAndLng(EdCorps) {
-    console.log(EdCorps[0].geoJSON.properties.lat)
-    console.log(EdCorps[0].geoJSON.properties.lng)
-    console.log(parseFloat(EdCorps[0].geoJSON.properties.lat))
-    console.log(parseFloat(EdCorps[0].geoJSON.properties.lng))
-
-    const listOfLat = EdCorps.map(obj => parseFloat(obj.geoJSON.properties.lat));
-    const listOfLng = EdCorps.map(obj => parseFloat(obj.geoJSON.properties.lng));
-    const lat = (Math.min(...listOfLat) + Math.max(...listOfLat)) / 2;
-    const lng = (Math.min(...listOfLng) + Math.max(...listOfLng)) / 2;
-  
-    return {lat, lng} 
-  }
-  
   render() {
-    const mapCenter = this.minMaxLatAndLng(EdCorps);
-
     return (
       <div>
         {!this.state.showMap && 
@@ -190,7 +173,6 @@ class MapWithStops extends Component {
               mapElement={
                 <div style={{ height: `100%` }} />
               }
-              center={mapCenter}
               markers={this.state.markers}
               coords={this.state.coords}
               onMarkerClick={this.handleMarkerClick}
