@@ -3,10 +3,10 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import EdCorps from './data/ed-corps'
-import { withGoogleMap, GoogleMap, Marker, Polyline, InfoWindow } from "react-google-maps"
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 
 
-const InitialMap = withGoogleMap(props => {
+const GMap = withGoogleMap(props => {
   return (
     <GoogleMap
       defaultZoom={4}
@@ -29,32 +29,25 @@ const InitialMap = withGoogleMap(props => {
           onMouseOut={() => props.onMarkerHide(marker)}
         >
           {marker.showInfo && (
-            <InfoWindow onCloseClick={() => props.onMarkerClose(marker)}>
-              <div id="info-window">
-                <div>Students: {marker.infoContent.studentsCount}</div>
-                <div>Routes: {marker.infoContent.routesCount}</div>
-              </div>
-            </InfoWindow>
+            console.log('TODO: Open Panel')
           )}
 
           {marker.hover && (
-            <InfoWindow
-              onCloseClick={() => props.onMarkerClose(marker)}>
+            <InfoWindow>
               <div id="info-window">
-                <div>Bus stop: <em>{marker.infoContent.name}</em></div>
+                <div>{marker.name}</div>
+                <div>{marker.city}, {marker.state}</div>
+                <div>{marker.level}</div>
               </div>
             </InfoWindow>
           )}
         </Marker>
       ))}
-      <Polyline
-        path={props.coords}
-      />
     </GoogleMap>
   )
 });
 
-class MapWithStops extends Component {
+class EdCorpsMap extends Component {
   constructor() {
     super();
     this.state = {
@@ -62,26 +55,16 @@ class MapWithStops extends Component {
         const { lat, lng } = edCorp.geoJSON.properties
         return {
           position: { lat: parseFloat(lat), lng: parseFloat(lng) },
-          showInfo: false,
-          infoContent: {
-            name: edCorp["EdCorps Name"],
-            studentsCount: 100,
-            routesCount: 5 
-          }
+          name: edCorp['EdCorps Name'],
+          level: edCorp['School Level'],
+          city: edCorp.geoJSON.properties.city,
+          state: edCorp.geoJSON.properties.state
         }
       }),    
-      coords: EdCorps.map(edCorp => {
-        const { lat, lng } = edCorp.geoJSON.properties
-        return {
-          lat: parseFloat(lat), 
-          lng: parseFloat(lng)
-        }
-      }),
       showMap: true
     };
 
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
-    this.handleMarkerClose = this.handleMarkerClose.bind(this);
     this.handleMarkerHover = this.handleMarkerHover.bind(this);
     this.handleMarkerHide = this.handleMarkerHide.bind(this);
     this.handleHideMapClick = this.handleHideMapClick.bind(this);
@@ -89,7 +72,7 @@ class MapWithStops extends Component {
   }
   
   handleMarkerClick(targetMarker) {
-    console.log("click on this marker", targetMarker);
+    console.log("clicked on marker", targetMarker);
     this.setState({
       markers: this.state.markers.map(marker => {
         if (marker === targetMarker) {
@@ -104,23 +87,8 @@ class MapWithStops extends Component {
     });
   }
 
-  handleMarkerClose(targetMarker) {
-    this.setState({
-      markers: this.state.markers.map(marker => {
-        if (marker === targetMarker) {
-          return {
-            ...marker,
-            showInfo: false,
-            hover: false
-          };
-        }
-        return marker;
-      }),
-    });
-  }
-
   handleMarkerHover(targetMarker) {
-    console.log("Marker has been hovered.")
+    console.log("hovered marker", targetMarker)
     this.setState({
       markers: this.state.markers.map(marker => {
         if (marker === targetMarker) {
@@ -135,7 +103,6 @@ class MapWithStops extends Component {
   }
 
   handleMarkerHide(targetMarker) {
-    console.log("info window has been removed.")
     this.setState({
       markers: this.state.markers.map(marker => {
         if (marker === targetMarker) {
@@ -166,7 +133,7 @@ class MapWithStops extends Component {
         {this.state.showMap &&
           <div className="map">
             <a className="btn-hide-map" onClick={this.handleHideMapClick}>Hide map</a>
-            <InitialMap
+            <GMap
               containerElement={
                 <div style={{ height: `100%` }} />
               }
@@ -174,7 +141,6 @@ class MapWithStops extends Component {
                 <div style={{ height: `100%` }} />
               }
               markers={this.state.markers}
-              coords={this.state.coords}
               onMarkerClick={this.handleMarkerClick}
               onMarkerClose={this.handleMarkerClose}
               onMarkerHover={this.handleMarkerHover}
@@ -187,4 +153,4 @@ class MapWithStops extends Component {
   }
 }
 
-export default MapWithStops;
+export default EdCorpsMap
