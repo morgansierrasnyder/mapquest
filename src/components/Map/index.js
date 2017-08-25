@@ -2,8 +2,11 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import EdCorps from './data/ed-corps'
-import { withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
+
+
+import EdCorps from '../../data/edcorps'
+import mapStyle from './mapStyle'
 
 
 const GMap = withGoogleMap(props => {
@@ -16,7 +19,8 @@ const GMap = withGoogleMap(props => {
         mapTypeControl: false,
         draggable: true,
         scaleControl: false,
-        mapTypeId: 'roadmap'
+        mapTypeId: 'roadmap',
+        styles: mapStyle
       }}
     >
 
