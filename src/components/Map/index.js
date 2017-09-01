@@ -7,11 +7,21 @@ import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 
 import EdCorps from '../../data/edcorps'
 import mapStyle from './mapStyle'
+import CustomMarker from './Marker'
+import Card from '../Card'
 
 
 const GMap = withGoogleMap(props => {
+  let map
+  const setMapRef = (ref) => {
+    console.log(ref)
+    map = ref
+  }
+
   return (
     <GoogleMap
+      ref={setMapRef}
+      onIndle={() => {}}
       defaultZoom={4}
       defaultCenter={{ lat: 42, lng: -100 }}
       defaultOptions={{
@@ -33,17 +43,17 @@ const GMap = withGoogleMap(props => {
           onMouseOut={() => props.onMarkerHide(marker)}
         >
           {marker.showInfo && (
-            console.log('TODO: Open Panel')
+            console.log(typeof(marker))
+            //console.log('TODO: Open Panel')
           )}
 
           {marker.hover && (
-            <InfoWindow>
-              <div id="info-window">
-                <div>{marker.name}</div>
-                <div>{marker.city}, {marker.state}</div>
-                <div>{marker.level}</div>
-              </div>
-            </InfoWindow>
+            <Card
+              map={map}
+              position={marker.position}
+            >
+              marker.name
+            </Card>
           )}
         </Marker>
       ))}
