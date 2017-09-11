@@ -1,170 +1,38 @@
-/*global google*/
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
-import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
+import React from 'react'
+import glamorous from 'glamorous'
+import GoogleMap from 'google-map-react'
 
+import MarkerIcon from '../Marker'
+import styles from './styles'
+import theme from '../theme'
+console.log(theme)
 
-import EdCorps from '../../data/edcorps'
-import mapStyle from './mapStyle'
-import CustomMarker from './Marker'
-import Card from '../Card'
+const KEYS = { key: 'AIzaSyAmJmE2pBOCq56D2Oo9mXjJWYnq7r3R1ds' }
+const TestComponent = () => <div>MOFO</div>
 
+const Container = glamorous.div({
+  width: '100% !important',
+  height: '700px'
+})
 
-const GMap = withGoogleMap(props => {
-  let map
-  const setMapRef = (ref) => {
-    console.log(ref)
-    map = ref
-  }
-
-  return (
+const Map = () => (
+  <Container>
     <GoogleMap
-      ref={setMapRef}
-      onIndle={() => {}}
+      bootstrapURLKeys={KEYS}
       defaultZoom={4}
       defaultCenter={{ lat: 42, lng: -100 }}
-      defaultOptions={{
+      options={{
         scrollwheel: false,
         mapTypeControl: false,
         draggable: true,
         scaleControl: false,
         mapTypeId: 'roadmap',
-        styles: mapStyle
+        styles: styles
       }}
     >
-
-      {props.markers.map((marker, index) => (
-        <Marker
-          key={index}
-          position={marker.position}
-          onClick={() => props.onMarkerClick(marker)}
-          onMouseOver={() => props.onMarkerHover(marker)}
-          onMouseOut={() => props.onMarkerHide(marker)}
-        >
-          {marker.showInfo && (
-            console.log(typeof(marker))
-            //console.log('TODO: Open Panel')
-          )}
-
-          {marker.hover && (
-            <Card
-              map={map}
-              position={marker.position}
-            >
-              marker.name
-            </Card>
-          )}
-        </Marker>
-      ))}
+      <MarkerIcon lat={42} lng={-100} size={32} fill={theme.colors.topaz} fillOpacity={0.6} />
     </GoogleMap>
-  )
-});
+  </Container>
+)
 
-class EdCorpsMap extends Component {
-  constructor() {
-    super();
-    this.state = {
-      markers: EdCorps.map(edCorp => {
-        const { lat, lng } = edCorp.geoJSON.properties
-        return {
-          position: { lat: parseFloat(lat), lng: parseFloat(lng) },
-          name: edCorp['EdCorps Name'],
-          level: edCorp['School Level'],
-          city: edCorp.geoJSON.properties.city,
-          state: edCorp.geoJSON.properties.state
-        }
-      }),    
-      showMap: true
-    };
-
-    this.handleMarkerClick = this.handleMarkerClick.bind(this);
-    this.handleMarkerHover = this.handleMarkerHover.bind(this);
-    this.handleMarkerHide = this.handleMarkerHide.bind(this);
-    this.handleHideMapClick = this.handleHideMapClick.bind(this);
-    this.handleShowMapClick = this.handleShowMapClick.bind(this);
-  }
-  
-  handleMarkerClick(targetMarker) {
-    console.log("clicked on marker", targetMarker);
-    this.setState({
-      markers: this.state.markers.map(marker => {
-        if (marker === targetMarker) {
-          return {
-            ...marker,
-            showInfo: true,
-            hover: false
-          };
-        }
-        return marker;
-      }),
-    });
-  }
-
-  handleMarkerHover(targetMarker) {
-    console.log("hovered marker", targetMarker)
-    this.setState({
-      markers: this.state.markers.map(marker => {
-        if (marker === targetMarker) {
-          return {
-            ...marker,
-            hover: true
-          };
-        }
-        return marker;
-      }),
-    });
-  }
-
-  handleMarkerHide(targetMarker) {
-    this.setState({
-      markers: this.state.markers.map(marker => {
-        if (marker === targetMarker) {
-          return {
-            ...marker,
-            hover: false
-          };
-        }
-        return marker;
-      }),
-    });
-  }
-
-  handleHideMapClick() {
-    this.setState({ showMap: false });
-  }
-
-  handleShowMapClick() {
-    this.setState({ showMap: true })
-  }
-  
-  render() {
-    return (
-      <div>
-        {!this.state.showMap && 
-          <a className="btn-show-map" onClick={this.handleShowMapClick}>Show map</a>
-        }
-        {this.state.showMap &&
-          <div className="map">
-            <a className="btn-hide-map" onClick={this.handleHideMapClick}>Hide map</a>
-            <GMap
-              containerElement={
-                <div style={{ height: `100%` }} />
-              }
-              mapElement={
-                <div style={{ height: `100%` }} />
-              }
-              markers={this.state.markers}
-              onMarkerClick={this.handleMarkerClick}
-              onMarkerClose={this.handleMarkerClose}
-              onMarkerHover={this.handleMarkerHover}
-              onMarkerHide={this.handleMarkerHide}
-            />
-          </div>
-        }
-      </div>  
-    );
-  }
-}
-
-export default EdCorpsMap
+export default Map

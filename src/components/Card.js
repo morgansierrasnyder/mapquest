@@ -15,9 +15,9 @@ const HoverCard = glamorous.div({
 })
 
 const Card = ({ position, title, description, map }) => {
-  console.log(position)
-  console.log(map)
-  console.log(latLng2Pixel(position, map))
+  console.log('Position: ', position)
+  console.log('Map', map)
+  //console.log(latLng2Pixel(position, map))
   return <HoverCard></HoverCard>
 }
 

@@ -5,6 +5,7 @@
   "dependencies": {
     "glamor": "^2.20.37",
     "glamorous": "^3.25.0",
+    "google-map-react": "^0.24.0",
     "google-maps-infobox": "^1.1.15",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
