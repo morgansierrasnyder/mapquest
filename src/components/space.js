@@ -20,15 +20,18 @@ const spacingProps = {
 
 const spacingStyles = (props) => (
   intersection(keys(spacingProps), keys(props)).reduce(
-    (res, key) => ({ [spacingProps[key]]: `${props[key]}px`, ...res }),
+    (res, propKey) => ({ ...res, ...(spacingProps[propKey].reduce(
+      (res, cssKey) => ({ ...res, [cssKey]: `${props[propKey]}px` }),
+      {}
+    ))}),
     {}
   )
 )
 
 const space = (Component) => (
-  glamorous(Component, (
+  glamorous(Component)(
     props => spacingStyles(props)
-  ))
+  )
 )
 
 export default space
