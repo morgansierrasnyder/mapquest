@@ -2,13 +2,11 @@ import React from 'react'
 import glamorous from 'glamorous'
 import GoogleMap from 'google-map-react'
 
-import MarkerIcon from '../Marker'
+import Marker from '../Marker'
 import styles from './styles'
 import theme from '../theme'
-console.log(theme)
 
 const KEYS = { key: 'AIzaSyAmJmE2pBOCq56D2Oo9mXjJWYnq7r3R1ds' }
-const TestComponent = () => <div>MOFO</div>
 
 const Container = glamorous.div({
   width: '100% !important',
@@ -17,6 +15,7 @@ const Container = glamorous.div({
 
 const Map = () => (
   <Container>
+    <Marker lat={42} lng={-100}  />
     <GoogleMap
       bootstrapURLKeys={KEYS}
       defaultZoom={4}
@@ -30,7 +29,7 @@ const Map = () => (
         styles: styles
       }}
     >
-      <MarkerIcon lat={42} lng={-100} size={32} fill={theme.colors.topaz} fillOpacity={0.6} />
+      <Marker lat={42} lng={-100}  />
     </GoogleMap>
   </Container>
 )
