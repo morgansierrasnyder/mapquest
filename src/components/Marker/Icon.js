@@ -5,7 +5,7 @@ import { omit, pick } from 'lodash'
 import theme from '../theme'
 
 const defaultProps = {
-  size: 36,
+  size: 42,
   fill: theme.colors.topaz,
   fillOpacity: 0.6
 }
@@ -31,7 +31,7 @@ const pathProps = (props) => (
 
 const Icon = glamorous.svg(
   {
-    display: 'inline-block'
+    marginTop: '8px'
   },
   (props => ({
     ...(props.size && {

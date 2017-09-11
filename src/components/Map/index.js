@@ -15,7 +15,7 @@ const Container = glamorous.div({
 
 const Map = () => (
   <Container>
-    <Marker lat={42} lng={-100}  />
+    <Marker />
     <GoogleMap
       bootstrapURLKeys={KEYS}
       defaultZoom={4}
@@ -30,6 +30,7 @@ const Map = () => (
       }}
     >
       <Marker lat={42} lng={-100}  />
+      <div lat={42} lng={-100}>MOFO</div>
     </GoogleMap>
   </Container>
 )

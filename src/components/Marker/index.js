@@ -1,5 +1,7 @@
 import React from 'react'
+import glamorous from 'glamorous'
 
+import MapContainer from '../MapContainer'
 import MarkerIcon from './Icon'
 
 const Marker = (props) => {
@@ -7,24 +9,26 @@ const Marker = (props) => {
     lat,
     lng,
     obj,
-    active
+    $hover
   } = props
 
-  if (active) {
+  if ($hover) {
     return (
-      <div>
+      <MapContainer w={400} h={190} lat={lat} lng={lng}>
         <div
-          lat={lat + 0.1}
-          lng={lng}
-          style={{ width: '100px', height: '100px', backgroundColor: '#fff' }}
+          style={{ width: '400px', height: '140px', backgroundColor: '#fff' }}
         >
           Card!
         </div>
-        <MarkerIcon active lat={lat} lng={lng} />
-      </div>
+        <MarkerIcon active />
+      </MapContainer>
     )
   }
-  return <MarkerIcon lat={lat} lng={lng} />
+  return (
+    <MapContainer w={50} h={50} lat={lat} lng={lng}>
+      <MarkerIcon />
+    </MapContainer>
+  )
 }
 
 export default Marker
