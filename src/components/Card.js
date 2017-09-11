@@ -9,9 +9,10 @@ const placeholder = 'For instance, on the planet Earth, man had always assumed t
 
 const Card = space(glamorous.div({
   width: '400px',
-  height: '140px',
+  maxHeight: '140px',
   display: 'flex',
-  overflow: 'hidden',
+  overflowY: 'hidden',
+  whitespace: 'nowrap',
   border: `2px solid ${theme.colors.topaz}`,
   backgroundColor: theme.colors.white
 }))
@@ -22,7 +23,13 @@ const Thumbnail = glamorous.div({
   backgroundColor: theme.colors.concrete
 })
 
-const Content = space(Div)
+const Content = space(glamorous.div({
+  maxWidth: '280px',
+  maxHeight: '100px',
+  overflow: 'hidden',
+  whitespace: 'nowrap',
+  textOverflow: 'ellipsis'
+}))
 
 export default (props) => (
   <Card py={20} px={20}>
