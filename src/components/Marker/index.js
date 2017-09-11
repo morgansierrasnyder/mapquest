@@ -3,6 +3,7 @@ import glamorous from 'glamorous'
 
 import MapContainer from '../MapContainer'
 import MarkerIcon from './Icon'
+import Card from '../Card'
 
 const Marker = (props) => {
   const {
@@ -15,11 +16,7 @@ const Marker = (props) => {
   if ($hover) {
     return (
       <MapContainer w={400} h={190} lat={lat} lng={lng}>
-        <div
-          style={{ width: '400px', height: '140px', backgroundColor: '#fff' }}
-        >
-          Card!
-        </div>
+        <Card />
         <MarkerIcon active />
       </MapContainer>
     )

@@ -1,24 +1,35 @@
 import React from 'react'
 import glamorous from 'glamorous'
-// import { InfoWindow } from 'react-google-maps'
 
-import { latLng2Pixel } from '../utils/transform'
+import { Title, Body } from './typography'
+import theme from './theme'
 
-const HoverCard = glamorous.div({
-  width: '250px',
-  height: '100px',
-  border: '2px solid red',
-  backgroundColor: 'white',
-  position: 'absolute',
-  top: 0,
-  left: 0
+const Card = glamorous.div({
+  width: '400px',
+  height: '140px',
+  display: 'flex',
+  border: `2px solid ${theme.colors.topaz}`,
+  backgroundColor: theme.colors.white
 })
 
-const Card = ({ position, title, description, map }) => {
-  console.log('Position: ', position)
-  console.log('Map', map)
-  //console.log(latLng2Pixel(position, map))
-  return <HoverCard></HoverCard>
-}
+const Thumbnail = glamorous.div({
+  width: '100px',
+  height: '100px',
+  margin: '20px',
+  backgroundColor: theme.colors.concrete
+})
 
-export default Card
+const Content = glamorous.div({
+  margin: '0px 20px',
+
+})
+
+export default (props) => (
+  <Card>
+    <Thumbnail />
+    <div>
+      <Title>EdCorps Name</Title>
+      <Body>description description description</Body>
+    </div>
+  </Card>
+)
