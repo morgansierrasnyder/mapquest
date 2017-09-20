@@ -15,8 +15,8 @@ const Marker = (props) => {
 
   return (
     <MapComponent w={420} h={202} lat={lat} lng={lng}>
-      <Card active={$hover} />
-      <MarkerIcon active={$hover} w={40} h={52} />
+      <Card active />
+      <MarkerIcon active w={40} h={52} />
     </MapComponent>
   )
 }
