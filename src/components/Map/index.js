@@ -1,6 +1,7 @@
 import React from 'react'
 import glamorous from 'glamorous'
 import GoogleMap from 'google-map-react'
+import { omit } from 'lodash'
 
 import Marker from '../Marker'
 import styles from './styles'
@@ -13,26 +14,45 @@ const Container = glamorous.div({
   height: '700px'
 })
 
-const Map = () => (
-  <Container>
-    <Marker />
-    <GoogleMap
-      bootstrapURLKeys={KEYS}
-      defaultZoom={4}
-      defaultCenter={{ lat: 42, lng: -100 }}
-      options={{
-        scrollwheel: false,
-        mapTypeControl: false,
-        draggable: true,
-        scaleControl: false,
-        mapTypeId: 'roadmap',
-        styles: styles
-      }}
-    >
-      <Marker lat={42} lng={-100}  />
-      <div lat={42} lng={-100}>MOFO</div>
-    </GoogleMap>
-  </Container>
-)
+class Map extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      markers: props.markers
+    }
+  }
+
+  render() {
+    const { markers } = this.state
+
+    return (
+      <Container>
+        <Marker />
+        <GoogleMap
+          bootstrapURLKeys={KEYS}
+          defaultZoom={4}
+          defaultCenter={{ lat: 42, lng: -100 }}
+          options={{
+            scrollwheel: false,
+            mapTypeControl: false,
+            draggable: true,
+            scaleControl: false,
+            mapTypeId: 'roadmap',
+            styles: styles
+          }}
+        >
+          {markers.map(marker => (
+            <Marker
+              lat={marker.position.lat}
+              lng={marker.position.lng}
+              data={omit(marker, 'position')}
+            />
+          ))}
+        </GoogleMap>
+      </Container>
+    )
+  }
+}
 
 export default Map

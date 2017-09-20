@@ -6,8 +6,6 @@ import space from './space'
 import theme from './theme'
 import truncate from './truncate'
 
-const placeholder = 'For instance, on the planet Earth, man had always assumed that he was more intelligent than dolphins because he had achieved so much—the wheel, New York, wars and so on—whilst all the dolphins had ever done was muck about in the water having a good time. But conversely, the dolphins had always believed that they were far more intelligent than man—for precisely the same reasons.'
-
 const splitContent = (s) => {
   if (s.length < 100) {
     return [s]
@@ -35,7 +33,8 @@ const Card = space(glamorous.div(
     }
   },
   (props => props.showing ? ({
-    opacity: 1
+    opacity: 1,
+    zIndex: 100
   }) : ({
     opacity: 0,
     transform: 'translateY(15px) scale(0.85, 0.85)'
@@ -55,14 +54,14 @@ const Content = space(glamorous.div({
   overflow: 'hidden'
 }))
 
-export default ({ active }) => {
-  const content = splitContent(placeholder)
+export default ({ active, title, description }) => {
+  const content = splitContent(description)
 
   return (
     <Card py={20} pl={20} pr={36} showing={active}>
       <Thumbnail />
       <Content ml={20} style={{ textAlign: 'left' }}>
-        <Title mb={12}>EdCorps Name</Title>
+        <Title mb={12}>{title}</Title>
         {content[0] && <Body>{content[0]}</Body>}
         {content[1] && <Body truncate>{content[1]}</Body>}
       </Content>

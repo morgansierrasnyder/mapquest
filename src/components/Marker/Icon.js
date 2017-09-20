@@ -4,55 +4,42 @@ import { omit, pick } from 'lodash'
 
 import theme from '../theme'
 
-const defaultProps = {
-  size: 42,
-  fill: theme.colors.topaz,
-  fillOpacity: 0.6
-}
-
-const activeProps = {
-  ...omit(defaultProps, 'fillOpacity'),
-  stroke: theme.colors.white,
-  strokeWidth: 75,
-  filter: `drop-shadow(0px 2px 4px ${theme.colors.shadow})`
-}
-
-const pathProps = (props) => (
-  // keep it simple with svgs for now
-  pick(props, [
-    'fill',
-    'fillOpacity',
-    'stroke',
-    'strokeOpacity',
-    'strokeWidth',
-    'filter'
-  ])
-)
-
 const Icon = glamorous.svg(
   {
     marginTop: '8px',
-    transition: 'all 0.075s cubic-bezier(0.645, 0.045, 0.355, 1)'
+    transition: 'all 0.075s cubic-bezier(0.645, 0.045, 0.355, 1)',
+    '> path': {
+      fill: theme.colors.topaz,
+    }
   },
   (props => ({
-    ...(props.size && {
-      width: props.size,
-      height: props.size
-    }),
     ...({
-      '> path': pathProps(props)
-    })
+      width: props.size || 42,
+      height: props.size || 42
+    }),
+    ...(props.active ? ({
+      zIndex: 100,
+      '> path': {
+        stroke: theme.colors.white,
+        strokeWidth: 75,
+        filter: `drop-shadow(0px 2px 4px ${theme.colors.shadow})`
+      }
+    }) : ({
+      '> path': {
+        fillOpacity: 0.6
+      }
+    }))
   }))
 )
 
 const MarkerIcon = ({ active }) => (
   <Icon
+    active={active}
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     width="801"
     height="1024"
     viewBox="0 0 1024 1024"
-    {...(active ? activeProps : defaultProps)}
   >
     <title>Map Marker</title>
     <path

@@ -3,6 +3,8 @@ import glamorous from 'glamorous'
 
 import './App.css'
 import logo from './assets/logo.svg'
+import edCorpsData from './data/edcorps'
+import buildMarkers from './utils/buildMarkers'
 import { Map } from './components'
 
 const Container = glamorous.div({
@@ -24,6 +26,8 @@ const Logo = glamorous.img({
 })
 
 class App extends Component {
+  markers = buildMarkers(edCorpsData)
+
   render() {
     return (
       <Container>
@@ -34,7 +38,7 @@ class App extends Component {
         <p>
           We're on a quest to make a map of all Real World Scholars EdCorps classrooms!
         </p>
-        <Map></Map>
+        <Map markers={this.markers}></Map>
       </Container>
     )
   }
